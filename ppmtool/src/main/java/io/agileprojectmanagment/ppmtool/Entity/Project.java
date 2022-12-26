@@ -1,4 +1,8 @@
 package io.agileprojectmanagment.ppmtool.Entity;
+//import javax.validation.constraints.Size;
+
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -10,11 +14,17 @@ public class Project {
     private Long id;
 
     private String projectName;
+
+    @Column(unique = true,updatable = false)
     private String projectIdentifier;
     private String description;
+    @JsonFormat(pattern = "dd-mm-yyyy")
     private Date startDate;
+    @JsonFormat(pattern = "dd-mm-yyyy")
     private Date endDate;
+    @JsonFormat(pattern = "dd-mm-yyyy")
     private Date createdAt;
+    @JsonFormat(pattern = "dd-mm-yyyy")
     private Date updatedAt;
 
     @PrePersist
