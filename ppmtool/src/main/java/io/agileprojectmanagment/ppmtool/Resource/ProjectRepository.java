@@ -8,9 +8,12 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ProjectRepository extends CrudRepository<Project,Long> {
+public interface ProjectRepository extends JpaRepository<Project,Long> {
     Project findByProjectIdentifier(String projectIdentifier);
 
     @Override
-    Iterable<Project> findAll();
+    List<Project> findAll();
+
+    @Override
+    void delete(Project entity);
 }

@@ -1,5 +1,6 @@
 package io.agileprojectmanagment.ppmtool.Controller;
 
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import io.agileprojectmanagment.ppmtool.Entity.Project;
 import io.agileprojectmanagment.ppmtool.Service.MapValidationErrorsService;
 import io.agileprojectmanagment.ppmtool.Service.ProjectService;
@@ -11,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
+import javax.xml.ws.Response;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,8 +42,16 @@ public class ProjectController {
     }
 
     @GetMapping("/all")
-    public Iterable<Project> getAllProjects(){
-        return projectService.findAllProjects();
+    public List<Project> findAll(){
+        return projectService.findAll();
+    }
+
+    @DeleteMapping("/{projectIdentifier}")
+    public ResponseEntity<?> deleteProjectByIdentifier(@PathVariable String projectIdentifier){
+        projectService.deleteProjectByIdentifier(projectIdentifier);
+
+        return new ResponseEntity<String>("Project with Identifier "+projectIdentifier+" was deleted",HttpStatus.OK);
+
     }
 }
 

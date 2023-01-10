@@ -103,4 +103,15 @@ public class Project {
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
     }
+
+    public Project(Long id, String projectName, String projectIdentifier, String description, Date startDate, Date endDate, Date createdAt, Date updatedAt) {
+        this.id = id;
+        this.projectName = projectName;
+        this.projectIdentifier = projectIdentifier;
+        this.description = description;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
 }
