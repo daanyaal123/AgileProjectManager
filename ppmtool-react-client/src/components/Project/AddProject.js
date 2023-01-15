@@ -1,11 +1,17 @@
 import React, { useState } from "react";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { createProject } from "../../actions/projectActions";
+import { useNavigate } from "react-router-dom";
+import { parseISO, format } from "date-fns";
 
-const AddProject = () => {
+const AddProject = (props) => {
   const [projectName, setProjectName] = useState("");
   const [projectIdentifier, setProjectIdentifier] = useState("");
   const [description, setDescription] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+  const navigate = useNavigate();
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -16,8 +22,9 @@ const AddProject = () => {
       startDate: startDate,
       endDate: endDate,
     };
-
+    props.createProject(newProject, props.history);
     console.log(newProject);
+    navigate("/dashboard");
   };
 
   return (
@@ -95,4 +102,8 @@ const AddProject = () => {
   );
 };
 
-export default AddProject;
+AddProject.propTypes = {
+  createProject: PropTypes.func.isRequired,
+};
+
+export default connect(null, { createProject })(AddProject);
