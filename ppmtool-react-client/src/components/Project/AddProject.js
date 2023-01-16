@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { createProject } from "../../actions/projectActions";
 import { useNavigate } from "react-router-dom";
-import { parseISO, format } from "date-fns";
 
 const AddProject = (props) => {
   const [projectName, setProjectName] = useState("");
@@ -11,6 +10,7 @@ const AddProject = (props) => {
   const [description, setDescription] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+  const [errors, setErrors] = useState({});
   const navigate = useNavigate();
 
   const onSubmit = (e) => {
@@ -24,12 +24,17 @@ const AddProject = (props) => {
     };
     props.createProject(newProject, props.history);
     console.log(newProject);
-    navigate("/dashboard");
+    if (Object.keys(errors).length === 0 && errors != null) {
+      navigate("/dashboard");
+    }
   };
+
+  useEffect(() => {
+    setErrors({ errors: errors });
+  }, [props.errors]);
 
   return (
     <div>
-      {}
       <div className="project">
         <div className="container">
           <div className="row">
@@ -104,6 +109,11 @@ const AddProject = (props) => {
 
 AddProject.propTypes = {
   createProject: PropTypes.func.isRequired,
+  errors: PropTypes.object.isRequired,
 };
 
-export default connect(null, { createProject })(AddProject);
+const mapStateToProps = (state) => ({
+  errors: state.errors,
+});
+
+export default connect(mapStateToProps, { createProject })(AddProject);
